@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "r2-video-site",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+
+  // 前端静态文件（public/）。除了 js / css / vendor 等静态资源，其它请求（页面、/api、/media、/avatars）都先交给 Worker，
+  // 这样绑定自定义域名后，旧的 workers.dev 地址才能整体跳转；每次打开页面只多一次 Worker 请求
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/*", "!/js/*", "!/css/*", "!/vendor/*", "!/favicon.svg"]
+  },
+
+  // 视频、用户、分类、设置都存在这个 R2 桶里
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "my-videos"
+    }
+  ],
+
+  "vars": {
+    // 左上角的网站名称，以及名称右上角的小角标（类似 YouTube 的 “JP”，例如 "R2"），不需要角标就留空
+    // 这里只是默认值：用 ./install.sh 部署时会询问，更新时沿用线上网站的设置
+    "SITE_NAME": "视频站",
+    "SITE_BADGE": "",
+    // 自定义域名（可选，例如 "video.example.com"，域名需要托管在同一个 Cloudflare 账号里）
+    // 由 ./install.sh 负责绑定；设置后旧的 *.workers.dev 地址会自动跳转到这个域名
+    "SITE_DOMAIN": "",
+    // 绑定了自定义域名时，是否保留 *.workers.dev 地址（保留时会跳转到自定义域名）；没有自定义域名时始终保留
+    "WORKERS_DEV": "true",
+    // 主管理员的用户名（密码用 secret 设置）
+    "ADMIN_USERNAME": "admin",
+    // "true" = 私密模式，看视频也要登录；"false" = 任何人都能看
+    "PRIVATE_MODE": "false"
+  }
+
+  // 主管理员密码不要写在这里，用：npx wrangler secret put ADMIN_PASSWORD
+}

@@ -1,0 +1,25 @@
+{
+  "name": "r2-video-site",
+  "version": "1.0.0",
+  "description": "基于 Cloudflare Workers + R2 的视频网站：浏览器内转码 HLS、多用户、分类、一键部署",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "repository": "github:zhushili/r2-video-site",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "setup": "node scripts/install.mjs",
+    "dev": "node scripts/vendor.mjs && wrangler dev",
+    "deploy": "node scripts/install.mjs --yes",
+    "deploy:ci": "node scripts/install.mjs --ci",
+    "postinstall": "node scripts/vendor.mjs"
+  },
+  "devDependencies": {
+    "@mediabunny/aac-encoder": "^1.61.3",
+    "hls.js": "^1.7.3",
+    "mediabunny": "^1.61.3",
+    "wrangler": "^4.147.0"
+  }
+}

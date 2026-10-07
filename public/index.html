@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>视频站</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#0c0c0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <script>
+    // 尽早应用主题，避免闪烁
+    try {
+      const t = localStorage.getItem("vs:theme");
+      if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+    } catch {}
+  </script>
+  <script type="importmap">
+    {
+      "imports": {
+        "mediabunny": "/vendor/mediabunny.min.mjs",
+        "hls.js": "/vendor/hls.min.mjs"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <div class="shell" id="shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="icon-btn" id="menu-btn" aria-label="菜单"></button>
+        <a href="/" class="brand" data-link aria-label="首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="1.5" y="3.5" width="21" height="17" rx="5" fill="var(--accent)"/><path d="M10 8.6v6.8l5.6-3.4z" fill="#fff"/></svg>
+          </span>
+          <span class="brand-name"><span id="site-name"></span><sup class="brand-badge" id="site-badge"></sup></span>
+        </a>
+      </div>
+      <form class="search" id="search-form" role="search">
+        <button type="button" class="icon-btn search-back" id="search-back" aria-label="返回"></button>
+        <span class="search-icon" aria-hidden="true"></span>
+        <input id="search" type="search" placeholder="搜索" autocomplete="off" aria-label="搜索视频">
+        <kbd class="search-kbd">/</kbd>
+      </form>
+      <div class="topbar-right" id="topbar-right"></div>
+    </header>
+
+    <aside class="sidebar" id="sidebar" aria-label="导航"></aside>
+    <div class="scrim" id="scrim"></div>
+
+    <main class="main" id="app"></main>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
